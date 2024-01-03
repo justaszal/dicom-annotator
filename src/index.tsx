@@ -1,15 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useRef } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import SetupCornerstoneComponent from "./SetupCornerstone";
+import FileInputComponent from "./FileInput";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
+function Main() {
+  const imageRef = useRef<HTMLCanvasElement | null>(null);
+
+  return (
+    <div>
+      <SetupCornerstoneComponent></SetupCornerstoneComponent>
+      <FileInputComponent element={imageRef}></FileInputComponent>
+      {/* <MedicalImageCanvas element={imageRef}></MedicalImageCanvas>
+      <ErrorMessage></ErrorMessage>
+      <CSToolsButtons element={imageRef}></CSToolsButtons>
+      <CSAnnotations></CSAnnotations>
+      <ReportSummaryComponent></ReportSummaryComponent> */}
+    </div>
+  );
+}
+
 root.render(
   <React.StrictMode>
-    <App />
+    <Main />
   </React.StrictMode>
 );
 
