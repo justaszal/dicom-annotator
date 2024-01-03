@@ -25,7 +25,7 @@ export default function SetupCornerstoneComponent() {
   useEffect(() => {
     console.log("setupCornerstone");
     setupCornerstone();
-    localStorage.setItem("debug", "cornerstoneTools")
+    localStorage.setItem("debug", "cornerstoneTools");
   });
   return <></>;
 }
