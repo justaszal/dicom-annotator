@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import SetupCornerstoneComponent from "./SetupCornerstone";
-import FileInputComponent from "./FileInput";
+import SetupCornerstoneComponent from "./components/SetupCornerstone";
+import FileInputComponent from "./components/FileInput";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
