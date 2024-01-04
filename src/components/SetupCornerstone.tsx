@@ -26,6 +26,6 @@ export default function SetupCornerstoneComponent() {
     console.log("setupCornerstone");
     setupCornerstone();
     localStorage.setItem("debug", "cornerstoneTools");
-  });
+  },[]);
   return <></>;
 }
