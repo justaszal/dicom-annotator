@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-function Main() {
+function DicomAnnotator() {
   const imageRef = useRef<HTMLDivElement | null>(null);
   const [annotationCount, setAnnotationCount] = useState(0);
   const [isInputInvalid, setIsInputInvalid] = useState(false);
@@ -31,7 +31,7 @@ function Main() {
   const handleMeasurementAddition = (
     event: React.MouseEvent<HTMLDivElement>
   ) => {
-    setAnnotationCount((prev) => prev + 1);
+    setAnnotationCount(prev => prev + 1);
   };
 
   const handleSummaryTextChange = (
@@ -77,7 +77,7 @@ function Main() {
 
 root.render(
   <React.StrictMode>
-    <Main />
+    <DicomAnnotator />
   </React.StrictMode>
 );
 
