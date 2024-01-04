@@ -1,5 +1,6 @@
 // import * as cornerstone from "cornerstone-core";
 import * as cornerstoneTools from "cornerstone-tools";
+import { useEffect } from "react";
 
 interface Props {
   refElement: React.MutableRefObject<HTMLDivElement | null>;
@@ -7,6 +8,20 @@ interface Props {
 }
 
 export default function CSToolsButtons(props: Props) {
+  useEffect(() => {
+    props.refElement.current?.addEventListener(
+      cornerstoneTools.EVENTS.MEASUREMENT_COMPLETED,
+      props.onMeasurementAddition
+    );
+
+    return () => {
+      props.refElement.current?.removeEventListener(
+        cornerstoneTools.EVENTS.MEASUREMENT_COMPLETED,
+        props.onMeasurementAddition
+      );
+    };
+  });
+
   const enableTool = () => {
     cornerstoneTools.addToolForElement(
       props.refElement.current,
@@ -18,22 +33,12 @@ export default function CSToolsButtons(props: Props) {
       "Length",
       { mouseButtonMask: 1 }
     );
-
-    props.refElement.current?.addEventListener(
-      cornerstoneTools.EVENTS.MEASUREMENT_COMPLETED,
-      props.onMeasurementAddition
-    );
   };
 
   const disableTool = () => {
     cornerstoneTools.setToolDisabledForElement(
       props.refElement.current,
       "Length"
-    );
-
-    props.refElement.current?.removeEventListener(
-      cornerstoneTools.EVENTS.MEASUREMENT_COMPLETED,
-      props.onMeasurementAddition
     );
   };
 

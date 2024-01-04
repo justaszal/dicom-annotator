@@ -183,7 +183,7 @@ export default function Main() {
       <ErrorMessage></ErrorMessage>
       <CSToolsButtons element={imageRef}></CSToolsButtons>
       <CSAnnotations></CSAnnotations>
-      <ReportSummaryComponent></ReportSummaryComponent>
+      <ReportSummaryComponent/>
     </div>
   );
 }

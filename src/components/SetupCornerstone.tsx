@@ -20,12 +20,6 @@ const setupCornerstone = (): void => {
 };
 
 export default function SetupCornerstoneComponent() {
-  // TODO: remove unecessary statements
-  // setup cornerstone once
-  useEffect(() => {
-    console.log("setupCornerstone");
-    setupCornerstone();
-    localStorage.setItem("debug", "cornerstoneTools");
-  },[]);
+  useEffect(() => setupCornerstone(), []);
   return <></>;
 }

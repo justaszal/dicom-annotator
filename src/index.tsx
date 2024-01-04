@@ -8,6 +8,7 @@ import MedicalImageCanvas from "./components/MedicalImageCanvas";
 import ErrorMessage from "./components/ErrorMessage";
 import CSToolsButtons from "./components/CSToolsButtons";
 import CSAnnotations from "./components/CSAnnotations";
+import ReportSummaryComponent from "./components/ReportSummaryComponent";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,16 +18,33 @@ function Main() {
   const imageRef = useRef<HTMLDivElement | null>(null);
   const [annotationCount, setAnnotationCount] = useState(0);
   const [isInputInvalid, setIsInputInvalid] = useState(false);
+  const [summaryText, setSummaryText] = useState("");
+  const [successCount, setSuccessCounter] = useState(0);
 
   const handleFileUpload = (isSuccessful: boolean) => {
     setIsInputInvalid(!isSuccessful);
     setAnnotationCount(0);
+    setSummaryText("");
+    setSuccessCounter(0);
   };
 
   const handleMeasurementAddition = (
     event: React.MouseEvent<HTMLDivElement>
   ) => {
     setAnnotationCount((prev) => prev + 1);
+  };
+
+  const handleSummaryTextChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newText = event.currentTarget.value;
+    if (newText !== summaryText) {
+      setSummaryText(newText);
+    }
+  };
+
+  const handleSuccessfullRequest = () => {
+    setSuccessCounter(prev => prev + 1);
   };
 
   return (
@@ -46,7 +64,13 @@ function Main() {
         onMeasurementAddition={handleMeasurementAddition}
       ></CSToolsButtons>
       <CSAnnotations annotationCount={annotationCount} />
-      {/* <ReportSummaryComponent></ReportSummaryComponent> */}
+      <ReportSummaryComponent
+        annotationCount={annotationCount}
+        summaryText={summaryText}
+        onSummaryTextChange={handleSummaryTextChange}
+        successCount={successCount}
+        onSuccessfullRequest={handleSuccessfullRequest}
+      />
     </div>
   );
 }
