@@ -6,7 +6,7 @@ import SetupCornerstoneComponent from "./components/SetupCornerstone";
 import FileInputComponent from "./components/FileInput";
 import MedicalImageCanvas from "./components/MedicalImageCanvas";
 import ErrorMessage from "./components/ErrorMessage";
-// import CSToolsButtons from "./components/CSToolsButtons";
+import CSToolsButtons from "./components/CSToolsButtons";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,26 +14,26 @@ const root = ReactDOM.createRoot(
 
 function Main() {
   const imageRef = useRef<HTMLDivElement | null>(null);
-  const [inputError, setInputError] = useState(false);
+  const [isInputInvalid, setIsInputInvalid] = useState(false);
 
   const handleFileUpload = (isSuccessful: boolean) => {
-    setInputError(!isSuccessful);
+    setIsInputInvalid(!isSuccessful);
   };
 
   return (
     <div>
-      <SetupCornerstoneComponent></SetupCornerstoneComponent>
+      <SetupCornerstoneComponent/>
       <FileInputComponent
         elementRef={imageRef}
         onFileUpload={handleFileUpload}
       ></FileInputComponent>
       <MedicalImageCanvas
         elementRef={imageRef}
-        hideCanvas={inputError}
+        hideCanvas={isInputInvalid}
       ></MedicalImageCanvas>
-      {inputError ? <ErrorMessage /> : null}
+      {isInputInvalid ? <ErrorMessage /> : null}
+      <CSToolsButtons refElement={imageRef}></CSToolsButtons>
       {/*
-      <CSToolsButtons element={imageRef}></CSToolsButtons>
       <CSAnnotations></CSAnnotations>
       <ReportSummaryComponent></ReportSummaryComponent> */}
     </div>
