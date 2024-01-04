@@ -14,28 +14,26 @@ export default function ReportSummaryComponent(props: Props) {
   const [summaryStatus, setSummaryStatus] = useState<SummaryStatus>("");
 
   useEffect(() => {
-    const timeoutId = setTimeout(async () => await debounceRequest(), 1000);
+    const timeoutId = setTimeout(async () => {
+      if (props.summaryText === "" || props.annotationCount === 0) {
+        return;
+      }
+
+      setSummaryStatus("mutating");
+
+      const url = `https://mocki.io/v1/3dd330f6-dabc-46e7-8763-be8c977f1667?text=${props.summaryText}&annotations=${props.annotationCount}`;
+      const resp = await fetch(url);
+
+      if (resp.ok) {
+        setSummaryStatus("success");
+        props.onSuccessfullRequest();
+      } else {
+        setSummaryStatus("error");
+      }
+    }, 1000);
 
     return () => clearTimeout(timeoutId);
   }, [props.summaryText]);
-
-  async function debounceRequest() {
-    if (props.summaryText === "" || props.annotationCount === 0) {
-      return;
-    }
-
-    setSummaryStatus("mutating");
-
-    const url = `https://mocki.io/v1/3dd330f6-dabc-46e7-8763-be8c977f1667?text=${props.summaryText}&annotations=${props.annotationCount}`;
-    const resp = await fetch(url);
-
-    if (resp.ok) {
-      setSummaryStatus("success");
-      props.onSuccessfullRequest();
-    } else {
-      setSummaryStatus("error");
-    }
-  }
 
   return (
     <>
