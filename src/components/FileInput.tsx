@@ -1,26 +1,38 @@
 import * as cornerstone from "cornerstone-core";
 import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
+import { MutableRefObject } from "react";
 
-const loadAndViewImage = async (file: File, element: HTMLElement) => {
-  cornerstone.enable(element);
+type LoadAndViewImage = (
+  file: File,
+  elementRef: HTMLElement
+) => Promise<boolean>;
+const loadAndViewImage: LoadAndViewImage = async (file, elementRef) => {
+  cornerstone.enable(elementRef);
 
   const imageId = cornerstoneWADOImageLoader.wadouri.fileManager.add(file);
 
   try {
     const dataset = await cornerstone.loadAndCacheImage(imageId);
-    cornerstone.displayImage(element, dataset);
+    cornerstone.displayImage(elementRef, dataset);
+    return true;
   } catch (error) {
-    console.error("Error loading image:", error);
+    return false;
   }
 };
 
-export default function FileInputComponent(element: any) {
+interface Props {
+  elementRef: MutableRefObject<HTMLDivElement | null>;
+  onFileUpload: (isSuccessful: boolean) => void;
+}
+
+export default function FileInputComponent(props: Props) {
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
 
-    if (files && files.length > 0 && element.element.current) {
+    if (files && files.length > 0 && props.elementRef.current) {
       const image = files[0];
-      loadAndViewImage(image, element.element.current);
+      const isLoaded = await loadAndViewImage(image, props.elementRef.current);
+      props.onFileUpload(isLoaded);
     }
   };
   return (

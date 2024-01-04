@@ -1,23 +1,38 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import SetupCornerstoneComponent from "./components/SetupCornerstone";
 import FileInputComponent from "./components/FileInput";
+import MedicalImageCanvas from "./components/MedicalImageCanvas";
+import ErrorMessage from "./components/ErrorMessage";
+// import CSToolsButtons from "./components/CSToolsButtons";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
 function Main() {
-  const imageRef = useRef<HTMLCanvasElement | null>(null);
+  const imageRef = useRef<HTMLDivElement | null>(null);
+  const [inputError, setInputError] = useState(false);
+
+  const handleFileUpload = (isSuccessful: boolean) => {
+    setInputError(!isSuccessful);
+  };
 
   return (
     <div>
       <SetupCornerstoneComponent></SetupCornerstoneComponent>
-      <FileInputComponent element={imageRef}></FileInputComponent>
-      {/* <MedicalImageCanvas element={imageRef}></MedicalImageCanvas>
-      <ErrorMessage></ErrorMessage>
+      <FileInputComponent
+        elementRef={imageRef}
+        onFileUpload={handleFileUpload}
+      ></FileInputComponent>
+      <MedicalImageCanvas
+        elementRef={imageRef}
+        hideCanvas={inputError}
+      ></MedicalImageCanvas>
+      {inputError ? <ErrorMessage /> : null}
+      {/*
       <CSToolsButtons element={imageRef}></CSToolsButtons>
       <CSAnnotations></CSAnnotations>
       <ReportSummaryComponent></ReportSummaryComponent> */}
